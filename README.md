@@ -1,6 +1,8 @@
 # ClienteServidor
 Cópia de arquivos via Cliente Servidor (Java)
 
+Falta tratar quando o arquivo nao existe.
+
 Servidor de arquivo multithreading
 
 Para este exercício deve ser implementado um servidor de arquivos multithreading utilizando o protocolo da camada de transporte TCP. O servidor deverá aceitar conexões de um ou mais clientes simultaneamente e transferir os arquivos solicitados. A transferência de arquivos deve seguir o protocolo especificado abaixo:
