@@ -43,7 +43,7 @@ class TCPServer {
             int port = connectionSocket.getPort();
 
             //Determina o path onde o servidor guarda os arquivos
-            String pathFile = "/Users/yasser/Desktop/";
+            String pathFile = "Z://Sistemas Operacionais/";
 
             //Recebe o nome do arquivo e adiciona no path
             String inputFile = pathFile + clientSentence;
@@ -65,8 +65,8 @@ class TCPServer {
                 OutputStreamWriter osw = new OutputStreamWriter(out);
                 BufferedWriter writer = new BufferedWriter(osw);
 
-                writer.write(respostaCliente + "\n");
-                writer.flush();    
+                //writer.write(respostaCliente + "\n");
+                //writer.flush();    
                 
                 while (inputStream.read(buffer) != -1) { 
                     outToClient.write(buffer);
@@ -75,6 +75,7 @@ class TCPServer {
 
             } catch (IOException ex) {
                 respostaCliente = "Arquivo nao existe";
+                outToClient.writeBytes(respostaCliente);
             }
            
             /* Exibe, IP:port => msg */

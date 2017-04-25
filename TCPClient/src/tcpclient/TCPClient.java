@@ -47,7 +47,8 @@ class TCPClient {
         System.out.println("\n-- Servidor diz -- \n" + echo);
         System.out.println("");
 
-        String outputFile = "/Users/yasser/Desktop/output.txt";
+        String outputFile = "Z://Sistemas Operacionais/output.txt";
+        // /Users/yasser/Desktop/output.txt
 
         try (
                 OutputStream outputStream = new FileOutputStream(outputFile);) {
