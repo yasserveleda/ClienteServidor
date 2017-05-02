@@ -14,8 +14,6 @@ import java.net.*;
 
 class TCPClient {
 
-    private static final int BUFFER_SIZE = 4096; // 4KB
-
     public static void main(String argv[]) throws Exception {
         //while(true){
         String sentence;
@@ -47,8 +45,7 @@ class TCPClient {
         System.out.println("\n-- Servidor diz -- \n" + echo);
         System.out.println("");
 
-        String outputFile = "Z://Sistemas Operacionais/output.txt";
-        // /Users/yasser/Desktop/output.txt
+        String outputFile = "/Users/yasser/Desktop/output.txt";
 
         try (
                 OutputStream outputStream = new FileOutputStream(outputFile);) {

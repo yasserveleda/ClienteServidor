@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 public class SocketClient implements Runnable {
 
     private Socket connectionSocket;
-    private static final int BUFFER_SIZE = 4096; // 4KB
+    private static final int BUFFER_SIZE = 1024; // 1KB
 
     public SocketClient(Socket connectionSocket) {
         this.connectionSocket = connectionSocket;
@@ -54,52 +54,68 @@ public class SocketClient implements Runnable {
             int port = connectionSocket.getPort();
 
             //Determina o path onde o servidor guarda os arquivos
-            String pathFile = "Z://Sistemas Operacionais/";
+            String pathFile = "/Users/yasser/Desktop/";
 
             //Recebe o nome do arquivo e adiciona no path
             String inputFile = pathFile + clientSentence;
             String respostaCliente;
 
-            /*
-            try (
-                    InputStream inputStream = new FileInputStream(inputFile);) {
+            try {
+                InputStream inputStream = new FileInputStream(inputFile);
+                respostaCliente = "Tamanho do arquivo: " + inputStream.available();
+
+                /* Adiciona o \n para que o cliente também possa ler usando readLine() */
+                echo = respostaCliente + "\n";
+
+                /* Envia mensagem para o cliente*/
+                respostaCliente = "Tamanho do arquivo: " + inputStream.available();
+
+                /* Adiciona o \n para que o cliente também possa ler usando readLine() */
+                echo = respostaCliente + "\n";
+
+                /* Envia mensagem para o cliente*/
+                outToClient.writeBytes(echo);
+
+                byte[] buffer = new byte[BUFFER_SIZE];
+
+                OutputStream out = connectionSocket.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(out);
+                BufferedWriter writer = new BufferedWriter(osw);
+
+                while (inputStream.read(buffer) != -1) {
+                    outToClient.write(buffer);
+                    System.out.println(buffer);
+                }
+
+                /* Exibe, IP:port => msg */
+                System.out.println(IPAddress.getHostAddress() + ":" + port + " => " + clientSentence);
+
+                /* Encerra socket do cliente */
+                connectionSocket.close();
+
+                System.out.println("");
+
             } catch (IOException ex) {
-                respostaCliente = "Arquivo nao existe";
-                outToClient.writeBytes(respostaCliente);
+                respostaCliente = "Arquivo nao encontrado";
+
+                /* Adiciona o \n para que o cliente também possa ler usando readLine() */
+                echo = respostaCliente + "\n";
+
+                /* Envia mensagem para o cliente*/
+                outToClient.writeBytes(echo);
+
+                /* Exibe, IP:port => msg */
+                System.out.println(IPAddress.getHostAddress() + ":" + port + " => " + clientSentence);
+
+                /* Encerra socket do cliente */
+                connectionSocket.close();
+
+                System.out.println("");
             }
-             */
-            InputStream inputStream = new FileInputStream(inputFile);
-
-            respostaCliente = "Tamanho do arquivo: " + inputStream.available();
-
-            /* Adiciona o \n para que o cliente também possa ler usando readLine() */
-            echo = respostaCliente + "\n";
-            /* Envia mensagem para o cliente*/
-            outToClient.writeBytes(echo);
-
-            byte[] buffer = new byte[BUFFER_SIZE];
-
-            OutputStream out = connectionSocket.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(out);
-            BufferedWriter writer = new BufferedWriter(osw);
-
-            //writer.write(respostaCliente + "\n");
-            //writer.flush();    
-            while (inputStream.read(buffer) != -1) {
-                outToClient.write(buffer);
-                System.out.println(buffer);
-            }
-
-            /* Exibe, IP:port => msg */
-            System.out.println(IPAddress.getHostAddress() + ":" + port + " => " + clientSentence);
-
-            /* Encerra socket do cliente */
-            connectionSocket.close();
-
-            System.out.println("");
 
         } catch (IOException ex) {
             Logger.getLogger(SocketClient.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erro de conexao");
         }
 
     }

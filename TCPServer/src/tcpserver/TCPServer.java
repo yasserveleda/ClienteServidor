@@ -14,8 +14,6 @@ import java.net.*;
 
 class TCPServer {
 
-    private static final int BUFFER_SIZE = 4096; // 4KB
-
     public static void main(String argv[]) throws Exception {
 
         /* Cria socket do servidor */
